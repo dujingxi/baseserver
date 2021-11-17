@@ -1,0 +1,6 @@
+{
+    "http_port": 8082,
+    "mc_server": "http://c.streamocean.com:4568",
+    "msm_server": "http://c.streamocean.com:2001",
+    "log_dir": "/home/dujingxi/workspace/iotrc/log"
+}
