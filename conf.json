@@ -1,6 +1,9 @@
 {
     "http_port": 8082,
-    "mc_server": "http://c.streamocean.com:4568",
-    "msm_server": "http://c.streamocean.com:2001",
-    "log_dir": "/home/dujingxi/workspace/iotrc/log"
+    "log_dir": "/home/dujingxi/workspace/service-man/log",
+    "mysql_host": "127.0.0.1",
+    "mysql_port": 3306,
+    "mysql_user": "sodicom",
+    "mysql_pass": "stream@ocean8",
+    "mysql_db": "serverman"
 }
