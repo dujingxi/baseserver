@@ -25,7 +25,7 @@ func EnsureDir(dirPath string) {
 	}
 }
 
-func SOTPHTTPPOST(url string, d map[string]interface{}) (res map[string]interface{}, err error) {
+func HTTPPOST(url string, d map[string]interface{}) (res map[string]interface{}, err error) {
 	// url := common.Config.SotpUrl.LoginUrl
 	// d := map[string]interface{}{
 	// 	"account":  name,

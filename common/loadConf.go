@@ -12,8 +12,6 @@ import (
 
 type Configuration struct {
 	HTTPPort  int    `json:"http_port"`
-	McServer  string `json:"mc_server"`
-	MsmServer string `json:"msm_server"`
 	LogDir    string `json:"log_dir"`
 	MysqlHost string `json:"mysql_host"`
 	MysqlPort int    `json:"mysql_port"`
