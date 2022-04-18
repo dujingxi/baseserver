@@ -21,7 +21,7 @@ const (
 
 type LogMan struct {
 	logger1 *log.Logger
-	logObj  *logFile
+	LogObj  *logFile
 }
 
 type Fields map[string]string
@@ -79,22 +79,22 @@ func NewLogMan(fileName string) *LogMan {
 	file.saveSize = 104857600 // 100M
 
 	l := new(LogMan)
-	l.logObj = file
+	l.LogObj = file
 	l.logger1 = log.New(io.MultiWriter(os.Stdout, file), "", 0)
 
 	return l
 }
 
 // func (l *LogMan) SetLevel(Level int) {
-// 	l.logObj.level = Level
+// 	l.LogObj.level = Level
 // }
 
 func (l *LogMan) SetSaveMode(mode SaveMode) {
-	l.logObj.saveMode = mode
+	l.LogObj.saveMode = mode
 }
 
 func (l *LogMan) GetSaveMode() SaveMode {
-	return l.logObj.saveMode
+	return l.LogObj.saveMode
 }
 
 func (m SaveMode) String() string {
@@ -115,47 +115,47 @@ func (m SaveMode) String() string {
 }
 
 func (l *LogMan) SetSaveVal(val int) {
-	switch l.logObj.saveMode {
+	switch l.LogObj.saveMode {
 	case ByDay:
-		l.logObj.saveDays = val
+		l.LogObj.saveDays = val
 	case ByWeek:
-		l.logObj.saveWeeks = val
+		l.LogObj.saveWeeks = val
 	case ByMonth:
-		l.logObj.saveMonths = val
+		l.LogObj.saveMonths = val
 	case BySize:
-		l.logObj.saveSize = int64(val) * 1024 * 1024
+		l.LogObj.saveSize = int64(val) * 1024 * 1024
 	}
 }
 
 func (l *LogMan) GetSaveVal() interface{} {
 	var ret interface{}
-	switch l.logObj.saveMode {
+	switch l.LogObj.saveMode {
 	case ByDay:
-		ret = l.logObj.saveDays
+		ret = l.LogObj.saveDays
 	case ByWeek:
-		ret = l.logObj.saveWeeks
+		ret = l.LogObj.saveWeeks
 	case ByMonth:
-		ret = l.logObj.saveMonths
+		ret = l.LogObj.saveMonths
 	case BySize:
-		ret = l.logObj.saveSize
+		ret = l.LogObj.saveSize
 	}
 	return ret
 }
 
 func (l *LogMan) SetSaveDays(days int) {
-	l.logObj.saveDays = days
+	l.LogObj.saveDays = days
 }
 
 func (l *LogMan) SetSaveWeeks(weeks int) {
-	l.logObj.saveWeeks = weeks
+	l.LogObj.saveWeeks = weeks
 }
 
 func (l *LogMan) SetSaveMonths(months int) {
-	l.logObj.saveMonths = months
+	l.LogObj.saveMonths = months
 }
 
 func (l *LogMan) SetSaveSize(size int) {
-	l.logObj.saveSize = int64(size) * 1024 * 1024
+	l.LogObj.saveSize = int64(size) * 1024 * 1024
 }
 
 func (l *LogMan) Print(logContent Fields) {

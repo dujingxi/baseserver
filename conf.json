@@ -1,6 +1,6 @@
 {
     "http_port": 8082,
-    "log_dir": "/home/dujingxi/workspace/service-man/log",
+    "log_dir": "/home/dujingxi/github/baseserver/log",
     "mysql_host": "127.0.0.1",
     "mysql_port": 3306,
     "mysql_user": "sodicom",
