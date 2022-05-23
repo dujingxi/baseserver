@@ -3,7 +3,7 @@
  * @Date: 2022-02-14 16:42:44
  * @version: 1.0
  * @LastEditors: Dujingxi
- * @LastEditTime: 2022-04-18 14:34:26
+ * @LastEditTime: 2022-05-23 16:53:37
  * @Descripttion:
  */
 package main
@@ -55,12 +55,14 @@ func Cors(ctx iris.Context) {
 }
 
 func RegisterRouter(app *iris.Application) *iris.Application {
-	app.Use(Cors)
-	common := app.Party("/")
-	{
-		common.Options("*", func(ctx iris.Context) {
-			ctx.Next()
-		})
+	if config.CrosConfig {
+		app.Use(Cors)
+		common := app.Party("/")
+		{
+			common.Options("*", func(ctx iris.Context) {
+				ctx.Next()
+			})
+		}
 	}
 	api := app.Party("/api")
 	{

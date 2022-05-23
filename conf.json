@@ -6,4 +6,6 @@
     "mysql_user": "sodicom",
     "mysql_pass": "stream@ocean8",
     "mysql_db": "serverman"
+    // // Allow Cros config, default false
+    // cros_config: true
 }

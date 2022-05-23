@@ -1,3 +1,11 @@
+/*
+ * @Author: Dujingxi
+ * @Date: 2022-02-14 16:42:44
+ * @version: 1.0
+ * @LastEditors: Dujingxi
+ * @LastEditTime: 2022-05-23 16:53:19
+ * @Descripttion:
+ */
 package common
 
 import (
@@ -11,13 +19,14 @@ import (
 )
 
 type Configuration struct {
-	HTTPPort  int    `json:"http_port"`
-	LogDir    string `json:"log_dir"`
-	MysqlHost string `json:"mysql_host"`
-	MysqlPort int    `json:"mysql_port"`
-	MysqlUser string `json:"mysql_user"`
-	MysqlPass string `json:"mysql_pass"`
-	MysqlDB   string `json:"mysql_db"`
+	HTTPPort   int    `json:"http_port"`
+	LogDir     string `json:"log_dir"`
+	MysqlHost  string `json:"mysql_host"`
+	MysqlPort  int    `json:"mysql_port"`
+	MysqlUser  string `json:"mysql_user"`
+	MysqlPass  string `json:"mysql_pass"`
+	MysqlDB    string `json:"mysql_db"`
+	CrosConfig bool   `json:"cros_config"`
 }
 
 func LoadConfig(name string, config *Configuration) {
