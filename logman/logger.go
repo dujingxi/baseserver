@@ -213,8 +213,10 @@ func (l *LogMan) Fatalf(logContent Fields) {
 }
 
 func outTime() string {
-	var z = time.FixedZone("Asia/Shanghai", 8*3600)
-	return time.Now().In(z).Format("2006-01-02 15:04:05")
+	//var z = time.FixedZone("Asia/Shanghai", 8*3600)
+	t := time.Now()
+	z, _ := t.Zone()
+	return fmt.Sprintf("%v(%v)", t.Format("2006-01-02 15:04:05"), z)
 }
 
 func shortFile() (string, int) {
