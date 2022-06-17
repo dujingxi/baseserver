@@ -40,7 +40,7 @@ func init() {
 
 	ServerLog = logman.NewLogMan(filepath.Join(logDir, "server.log"))
 	ServerLog.SetSaveMode(logman.BySize)
-	ServerLog.SetSaveVal(50)
+	ServerLog.SetSaveVal(20)
 
 	// Initialize the mysql db
 	InitDB()
