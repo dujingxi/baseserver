@@ -1,3 +1,11 @@
+/*
+ * @Author: Dujingxi
+ * @Date: 2022-06-17 10:19:08
+ * @version: 1.0
+ * @LastEditors: Dujingxi
+ * @LastEditTime: 2022-07-05 11:19:13
+ * @Descripttion:
+ */
 package common
 
 import (
@@ -6,13 +14,12 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
-	"service-man/logman"
 
 	"gorm.io/gorm"
 )
 
 var (
-	ServerLog  *logman.LogMan
+	// ServerLog  *logman.LogMan
 	Config     *Configuration
 	DB         *gorm.DB
 	Sqldb      *sql.DB
@@ -30,17 +37,21 @@ func init() {
 
 	HTTPClient = &http.Client{}
 
+	// rootDir, err := osext.ExecutableFolder()
+	rootDir, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	if err != nil {
+		panic(err)
+	} else {
+		Config.RootDir = rootDir
+	}
 	logDir := Config.LogDir
 	if logDir == "" {
-		logDir = "/var/log"
+		logDir = filepath.Join(Config.RootDir, "log")
+		Config.LogDir = logDir
 	}
 	if !PathExists(logDir) {
 		os.MkdirAll(logDir, 0777)
 	}
-
-	ServerLog = logman.NewLogMan(filepath.Join(logDir, "server.log"))
-	ServerLog.SetSaveMode(logman.BySize)
-	ServerLog.SetSaveVal(20)
 
 	// Initialize the mysql db
 	InitDB()

@@ -3,7 +3,7 @@
  * @Date: 2022-02-14 16:42:44
  * @version: 1.0
  * @LastEditors: Dujingxi
- * @LastEditTime: 2022-05-23 16:53:19
+ * @LastEditTime: 2022-07-05 11:18:36
  * @Descripttion:
  */
 package common
@@ -20,13 +20,14 @@ import (
 
 type Configuration struct {
 	HTTPPort   int    `json:"http_port"`
-	LogDir     string `json:"log_dir"`
 	MysqlHost  string `json:"mysql_host"`
 	MysqlPort  int    `json:"mysql_port"`
 	MysqlUser  string `json:"mysql_user"`
 	MysqlPass  string `json:"mysql_pass"`
 	MysqlDB    string `json:"mysql_db"`
 	CrosConfig bool   `json:"cros_config"`
+	RootDir    string `json:"root_dir"`
+	LogDir     string `json:"log_dir"`
 }
 
 func LoadConfig(name string, config *Configuration) {

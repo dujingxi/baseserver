@@ -1,3 +1,11 @@
+/*
+ * @Author: Dujingxi
+ * @Date: 2022-02-14 16:42:44
+ * @version: 1.0
+ * @LastEditors: Dujingxi
+ * @LastEditTime: 2022-07-05 09:28:48
+ * @Descripttion:
+ */
 package logman
 
 import (
@@ -7,10 +15,10 @@ import (
 )
 
 type logFile struct {
-	fileFd   *os.File
-	fileName string
-	logTime  int64 //
-	// level    int   // 日志等级
+	fileFd     *os.File
+	fileName   string
+	logTime    int64    //
+	level      int      // 日志等级
 	saveMode   SaveMode // 保存模式
 	saveDays   int      // 日志保存天数
 	saveWeeks  int

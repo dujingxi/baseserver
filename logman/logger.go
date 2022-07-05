@@ -19,6 +19,14 @@ const (
 	BySize
 )
 
+const (
+	FATAL = iota + 1
+	ERROR
+	WARN
+	INFO
+	DEBUG
+)
+
 type LogMan struct {
 	logger1 *log.Logger
 	LogObj  *logFile
@@ -31,10 +39,10 @@ func joinFields(fs Fields) string {
 	// If a log field is empty, use "-" instead
 	// You can define any format you want
 	var content = []map[string]string{
-		map[string]string{"key": "time", "val": "-"},
-		map[string]string{"key": "level", "val": "-"},
-		map[string]string{"key": "type", "val": "-"},
-		map[string]string{"key": "message", "val": "-"},
+		{"key": "time", "val": "-"},
+		{"key": "level", "val": "-"},
+		{"key": "type", "val": "-"},
+		{"key": "message", "val": "-"},
 	}
 	// set default value for time
 	content[0]["val"] = outTime()
@@ -73,7 +81,7 @@ func NewLogMan(fileName string) *LogMan {
 	file.fileFd = logFd
 	file.fileName = fileName
 	file.logTime = time.Now().Unix()
-	// file.level = DebugLevel
+	file.level = DEBUG
 	file.saveMode = ByDay
 	file.saveDays = 10
 	file.saveSize = 104857600 // 100M
@@ -85,9 +93,9 @@ func NewLogMan(fileName string) *LogMan {
 	return l
 }
 
-// func (l *LogMan) SetLevel(Level int) {
-// 	l.LogObj.level = Level
-// }
+func (l *LogMan) SetLevel(Level int) {
+	l.LogObj.level = Level
+}
 
 func (l *LogMan) SetSaveMode(mode SaveMode) {
 	l.LogObj.saveMode = mode
@@ -167,49 +175,59 @@ func (l *LogMan) Print(logContent Fields) {
 }
 
 func (l *LogMan) Debugf(logContent Fields) {
-	file, line := shortFile()
-	logContent["level"] = "DEBUG"
-	lmsg := fmt.Sprintf("%s::%d %s", file, line, logContent["message"])
-	logContent["message"] = lmsg
-	format := joinFields(logContent)
-	l.logger1.Output(2, fmt.Sprint(format))
+	if l.LogObj.level >= DEBUG {
+		file, line := shortFile()
+		logContent["level"] = "DEBUG"
+		lmsg := fmt.Sprintf("%s::%d %s", file, line, logContent["message"])
+		logContent["message"] = lmsg
+		format := joinFields(logContent)
+		l.logger1.Output(2, fmt.Sprint(format))
+	}
 }
 
 func (l *LogMan) Infof(logContent Fields) {
-	file, line := shortFile()
-	logContent["level"] = "INFO"
-	lmsg := fmt.Sprintf("%s::%d %s", file, line, logContent["message"])
-	logContent["message"] = lmsg
-	// logContent["message"] += fmt.Sprintf("%s::%d %s", file, line, logContent["message"])
-	format := joinFields(logContent)
-	l.logger1.Output(2, fmt.Sprint(format))
+	if l.LogObj.level >= INFO {
+		file, line := shortFile()
+		logContent["level"] = "INFO"
+		lmsg := fmt.Sprintf("%s::%d %s", file, line, logContent["message"])
+		logContent["message"] = lmsg
+		// logContent["message"] += fmt.Sprintf("%s::%d %s", file, line, logContent["message"])
+		format := joinFields(logContent)
+		l.logger1.Output(2, fmt.Sprint(format))
+	}
 }
 
 func (l *LogMan) Warnf(logContent Fields) {
-	file, line := shortFile()
-	logContent["level"] = "WARN"
-	lmsg := fmt.Sprintf("%s::%d %s", file, line, logContent["message"])
-	logContent["message"] = lmsg
-	format := joinFields(logContent)
-	l.logger1.Output(2, fmt.Sprint(format))
+	if l.LogObj.level >= WARN {
+		file, line := shortFile()
+		logContent["level"] = "WARN"
+		lmsg := fmt.Sprintf("%s::%d %s", file, line, logContent["message"])
+		logContent["message"] = lmsg
+		format := joinFields(logContent)
+		l.logger1.Output(2, fmt.Sprint(format))
+	}
 }
 
 func (l *LogMan) Errorf(logContent Fields) {
-	file, line := shortFile()
-	logContent["level"] = "ERROR"
-	lmsg := fmt.Sprintf("%s::%d %s", file, line, logContent["message"])
-	logContent["message"] = lmsg
-	format := joinFields(logContent)
-	l.logger1.Output(2, fmt.Sprint(format))
+	if l.LogObj.level >= ERROR {
+		file, line := shortFile()
+		logContent["level"] = "ERROR"
+		lmsg := fmt.Sprintf("%s::%d %s", file, line, logContent["message"])
+		logContent["message"] = lmsg
+		format := joinFields(logContent)
+		l.logger1.Output(2, fmt.Sprint(format))
+	}
 }
 
 func (l *LogMan) Fatalf(logContent Fields) {
-	file, line := shortFile()
-	logContent["level"] = "FATAL"
-	lmsg := fmt.Sprintf("%s::%d %s", file, line, logContent["message"])
-	logContent["message"] = lmsg
-	format := joinFields(logContent)
-	l.logger1.Output(2, fmt.Sprint(format))
+	if l.LogObj.level >= FATAL {
+		file, line := shortFile()
+		logContent["level"] = "FATAL"
+		lmsg := fmt.Sprintf("%s::%d %s", file, line, logContent["message"])
+		logContent["message"] = lmsg
+		format := joinFields(logContent)
+		l.logger1.Output(2, fmt.Sprint(format))
+	}
 }
 
 func outTime() string {

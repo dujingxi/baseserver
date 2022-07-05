@@ -3,7 +3,7 @@
  * @Date: 2022-02-14 16:42:44
  * @version: 1.0
  * @LastEditors: Dujingxi
- * @LastEditTime: 2022-05-23 16:53:37
+ * @LastEditTime: 2022-07-05 11:16:19
  * @Descripttion:
  */
 package main
@@ -21,14 +21,18 @@ import (
 
 // Cors
 func Cors(ctx iris.Context) {
-	requestLog := fmt.Sprintf("%v %v %v", ctx.Request().RemoteAddr, ctx.Method(), ctx.Request().URL)
 	ctx.Header("Access-Control-Allow-Origin", "*")
 	if ctx.Method() == http.MethodOptions {
 		ctx.Header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,PATCH,OPTIONS")
 		ctx.Header("Access-Control-Allow-Headers", "Content-Type, Accept, Authorization,File-Type,File-Name, Session-ID, Slice-Count, Slice-Number")
 		ctx.StatusCode(204)
 		return
-	} else if ctx.Method() == http.MethodPost || ctx.Method() == http.MethodPut || ctx.Method() == http.MethodPatch {
+	}
+	ctx.Next()
+}
+func LogReqBody(ctx iris.Context) {
+	requestLog := fmt.Sprintf("REQ %v %v %v", ctx.Request().RemoteAddr, ctx.Method(), ctx.Request().URL)
+	if ctx.Method() == http.MethodPost || ctx.Method() == http.MethodPut || ctx.Method() == http.MethodPatch {
 		params := ""
 		body, err := ioutil.ReadAll(ctx.Request().Body)
 		if err == nil {
@@ -64,6 +68,7 @@ func RegisterRouter(app *iris.Application) *iris.Application {
 			})
 		}
 	}
+	app.Use(LogReqBody)
 	api := app.Party("/api")
 	{
 		api.Get("/", TestHandler)
