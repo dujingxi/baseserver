@@ -1,3 +1,11 @@
+/*
+ * @Author: Dujingxi
+ * @Date: 2022-07-28 10:07:06
+ * @version: 1.0
+ * @LastEditors: Dujingxi
+ * @LastEditTime: 2022-08-03 14:14:57
+ * @Descripttion:
+ */
 package common
 
 import (
@@ -10,20 +18,20 @@ import (
 	"gorm.io/gorm/schema"
 )
 
-func InitDB() {
+func InitDB(c *Configuration) *gorm.DB {
 	// connect db
 	var dsn bytes.Buffer
-	dsn.WriteString(Config.MysqlUser)
+	dsn.WriteString(c.MysqlUser)
 	dsn.WriteString(":")
-	dsn.WriteString(Config.MysqlPass)
+	dsn.WriteString(c.MysqlPass)
 	dsn.WriteString("@(")
-	dsn.WriteString(Config.MysqlHost)
+	dsn.WriteString(c.MysqlHost)
 	dsn.WriteString(":")
-	dsn.WriteString(strconv.Itoa(Config.MysqlPort))
+	dsn.WriteString(strconv.Itoa(c.MysqlPort))
 	dsn.WriteString(")/")
-	dsn.WriteString(Config.MysqlDB)
+	dsn.WriteString(c.MysqlDB)
 	dsn.WriteString("?charset=utf8mb4&parseTime=True&loc=Local")
-	DB, Err = gorm.Open(mysql.Open(dsn.String()), &gorm.Config{
+	DB, Err := gorm.Open(mysql.Open(dsn.String()), &gorm.Config{
 		NamingStrategy: schema.NamingStrategy{
 			//设置全局表名禁用复数
 			SingularTable: true,
@@ -32,7 +40,7 @@ func InitDB() {
 	if Err != nil {
 		panic(Err)
 	}
-	Sqldb, Err = DB.DB()
+	Sqldb, Err := DB.DB()
 	if Err != nil {
 		// paylog.Errorf(logman.Fields{
 		// 	"message": "Set database pool error.",
@@ -47,4 +55,5 @@ func InitDB() {
 
 	// SetConnMaxLifetime 设置了连接可复用的最大时间。
 	Sqldb.SetConnMaxLifetime(time.Hour)
+	return DB
 }

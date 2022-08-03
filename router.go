@@ -3,17 +3,17 @@
  * @Date: 2022-02-14 16:42:44
  * @version: 1.0
  * @LastEditors: Dujingxi
- * @LastEditTime: 2022-07-05 11:16:19
+ * @LastEditTime: 2022-08-03 14:19:57
  * @Descripttion:
  */
 package main
 
 import (
+	"baseserver/logman"
 	"bytes"
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"service-man/logman"
 	"strings"
 
 	"github.com/kataras/iris/v12"
@@ -59,7 +59,7 @@ func LogReqBody(ctx iris.Context) {
 }
 
 func RegisterRouter(app *iris.Application) *iris.Application {
-	if config.CrosConfig {
+	if settingConfig.CrosConfig {
 		app.Use(Cors)
 		common := app.Party("/")
 		{

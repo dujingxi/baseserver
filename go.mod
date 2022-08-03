@@ -1,4 +1,4 @@
-module service-man
+module baseserver
 
 go 1.13
 
@@ -11,6 +11,7 @@ require (
 	github.com/kataras/iris/v12 v12.1.8
 	github.com/mattn/go-colorable v0.1.12 // indirect
 	github.com/moul/http2curl v1.0.0 // indirect
+	github.com/nacos-group/nacos-sdk-go v1.1.1
 	github.com/onsi/ginkgo v1.16.5 // indirect
 	github.com/onsi/gomega v1.18.1 // indirect
 	github.com/sergi/go-diff v1.2.0 // indirect

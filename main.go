@@ -3,34 +3,40 @@
  * @Date: 2022-02-14 16:42:44
  * @version: 1.0
  * @LastEditors: Dujingxi
- * @LastEditTime: 2022-07-05 11:19:30
+ * @LastEditTime: 2022-08-03 14:19:21
  * @Descripttion:
  */
 package main
 
 import (
+	"baseserver/common"
+	"baseserver/logman"
+	"flag"
 	"fmt"
 	"path/filepath"
-	"service-man/common"
-	"service-man/logman"
 
 	"github.com/kataras/iris/v12"
 	"gorm.io/gorm"
 )
 
 var (
-	config    *common.Configuration
-	serverLog *logman.LogMan
-	db        *gorm.DB
+	settingConfig *common.Configuration
+	fileConfig    *common.Configuration
+	db            *gorm.DB
+	serverLog     *logman.LogMan
 )
 
 func init() {
-	config = common.Config
-	// serverLog = common.ServerLog
-	db = common.DB
+	cf := flag.String("f", "conf.json", "specify the config file.")
+	flag.Parse()
+	settingConfig = HandleConfig(*cf)
+
+	// Initialize the mysql db
+	db = common.InitDB(settingConfig)
+	// db = common.DB
 
 	// for a log file
-	serverLog = logman.NewLogMan(filepath.Join(common.Config.LogDir, "server.log"))
+	serverLog = logman.NewLogMan(filepath.Join(settingConfig.LogDir, "server.log"))
 	serverLog.SetSaveMode(logman.BySize)
 	serverLog.SetSaveVal(20)
 	// ServerLog.SetLevel(logman.DEBUG)
@@ -54,5 +60,5 @@ func main() {
 	// })
 	application := iris.Default()
 	app := RegisterRouter(application)
-	app.Run(iris.Addr(fmt.Sprintf(":%d", config.HTTPPort)), iris.WithCharset("utf-8"))
+	app.Run(iris.Addr(fmt.Sprintf("%v:%v", settingConfig.HTTPBind, settingConfig.HTTPPort)), iris.WithCharset("utf-8"))
 }
