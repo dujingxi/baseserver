@@ -3,7 +3,7 @@
  * @Date: 2022-02-14 16:42:44
  * @version: 1.0
  * @LastEditors: Dujingxi
- * @LastEditTime: 2022-04-18 14:36:06
+ * @LastEditTime: 2022-08-03 14:24:51
  * @Descripttion:
  */
 package main
@@ -22,12 +22,6 @@ func PostServiceHandler(ctx iris.Context) {
 	ctx.WriteString("post")
 }
 
-func GetServiceHandler(ctx iris.Context) {
-
-}
-func PutServiceHandler(ctx iris.Context) {
-
-}
-func DelServiceHandler(ctx iris.Context) {
-
+func VersionHandler(ctx iris.Context) {
+	ctx.JSON(iris.Map{"code": 0, "errMsg": "success", "version": VERSION})
 }

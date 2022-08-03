@@ -3,7 +3,7 @@
  * @Date: 2022-02-14 16:42:44
  * @version: 1.0
  * @LastEditors: Dujingxi
- * @LastEditTime: 2022-08-03 14:19:57
+ * @LastEditTime: 2022-08-03 14:24:38
  * @Descripttion:
  */
 package main
@@ -69,16 +69,13 @@ func RegisterRouter(app *iris.Application) *iris.Application {
 		}
 	}
 	app.Use(LogReqBody)
+	app.Get("/version", VersionHandler)
 	api := app.Party("/api")
 	{
 		api.Get("/", TestHandler)
 		service := api.Party("/service")
 		{
 			service.Post("/", PostServiceHandler)
-			service.Get("/", GetServiceHandler)
-			service.Get("/{id:int}", GetServiceHandler)
-			service.Put("/{id:int}", PutServiceHandler)
-			service.Delete("/{id:int}", DelServiceHandler)
 		}
 	}
 	return app
