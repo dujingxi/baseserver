@@ -3,7 +3,7 @@
  * @Date: 2022-02-14 16:42:44
  * @version: 1.0
  * @LastEditors: Dujingxi
- * @LastEditTime: 2022-08-03 14:15:42
+ * @LastEditTime: 2022-08-03 14:50:29
  * @Descripttion:
  */
 package common
@@ -20,6 +20,9 @@ import (
 )
 
 type Configuration struct {
+	HttpTls          bool   `json:"http_tls"`
+	TlsCrt           string `json:"tls_crt"`
+	TlsKey           string `json:"tls_key"`
 	HTTPBind         string `json:"http_bind"`
 	HTTPPort         int    `json:"http_port"`
 	MysqlHost        string `json:"mysql_host"`

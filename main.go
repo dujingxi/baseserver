@@ -3,7 +3,7 @@
  * @Date: 2022-02-14 16:42:44
  * @version: 1.0
  * @LastEditors: Dujingxi
- * @LastEditTime: 2022-08-03 14:19:21
+ * @LastEditTime: 2022-08-03 14:50:51
  * @Descripttion:
  */
 package main
@@ -13,6 +13,7 @@ import (
 	"baseserver/logman"
 	"flag"
 	"fmt"
+	"os"
 	"path/filepath"
 
 	"github.com/kataras/iris/v12"
@@ -60,5 +61,15 @@ func main() {
 	// })
 	application := iris.Default()
 	app := RegisterRouter(application)
+	if settingConfig.HttpTls {
+		if !common.PathExists(settingConfig.TlsCrt) || !common.PathExists(settingConfig.TlsKey) {
+			serverLog.Errorf(logman.Fields{
+				"message": "Invalid TLS certificate",
+			})
+			os.Exit(-1)
+		} else {
+			app.Run(iris.TLS(fmt.Sprintf("%v:%v", settingConfig.HTTPBind, settingConfig.HTTPPort), settingConfig.TlsCrt, settingConfig.TlsKey), iris.WithCharset("utf-8"))
+		}
+	}
 	app.Run(iris.Addr(fmt.Sprintf("%v:%v", settingConfig.HTTPBind, settingConfig.HTTPPort)), iris.WithCharset("utf-8"))
 }
