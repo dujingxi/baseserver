@@ -9,6 +9,8 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
+	"time"
 )
 
 func PathExists(path string) bool {
@@ -28,32 +30,52 @@ func EnsureDir(dirPath string) {
 	}
 }
 
-func HTTPPOST(url string, d map[string]interface{}) (res map[string]interface{}, err error) {
-	// url := common.Config.SotpUrl.LoginUrl
-	// d := map[string]interface{}{
-	// 	"account":  name,
-	// 	"password": pwd,
-	// 	"role":     role,
-	// }
+func HTTPPOST(url string, h map[string]string, d map[string]interface{}) (res map[string]interface{}, err error) {
 	dBytes, err := json.Marshal(d)
 	if err != nil {
 		return nil, err
 	}
 	dJson := bytes.NewReader(dBytes)
-	req, err := http.NewRequest("POST", url, dJson)
+
+	var method string = "POST"
+	if hMethod, ok := h["method"]; ok {
+		method = hMethod
+		delete(h, "method")
+	}
+
+	req, err := http.NewRequest(method, url, dJson)
 	if err != nil {
 		return nil, err
 	}
 	req.Header.Set("Content-Type", "application/json;charset=UTF-8")
+	req.Header.Add("Accept-Encoding", "*")
+	for k, v := range h {
+		if k == "timeout" {
+			vInt, _ := strconv.Atoi(v)
+			HTTPClient.Timeout = time.Duration(vInt) * time.Second
+			defer func() { HTTPClient.Timeout = 120 }()
+		} else {
+			req.Header.Set(k, v)
+		}
+	}
 	resp, err := HTTPClient.Do(req)
 	if err != nil {
 		return nil, err
 	}
+	defer resp.Body.Close()
+	var bs []byte
 	respBytes, err := ioutil.ReadAll(resp.Body)
+
 	if err != nil {
-		return nil, err
+		if strings.Contains(err.Error(), "unexpected EOF") && len(respBytes) != 0 {
+			bs = respBytes
+		} else {
+			return nil, err
+		}
+	} else {
+		bs = respBytes
 	}
-	err = json.Unmarshal(respBytes, &res)
+	err = json.Unmarshal(bs, &res)
 	if err != nil {
 		return nil, err
 	}
