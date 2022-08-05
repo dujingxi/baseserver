@@ -3,7 +3,7 @@
  * @Date: 2022-07-27 14:01:09
  * @version: 1.0
  * @LastEditors: Dujingxi
- * @LastEditTime: 2022-08-05 11:33:36
+ * @LastEditTime: 2022-08-05 15:39:05
  * @Descripttion:
  */
 package main
@@ -153,6 +153,7 @@ func HandleConfig(conf string) *common.Configuration {
 		if err != nil {
 			return fileConfig
 		}
+		n.ListenConfigs()
 		// 写入后再次读取本地文件配置
 		fileConfiguration2 := common.LoadConfigFile(conf)
 		if fileConfiguration2 == nil {
