@@ -3,7 +3,7 @@
  * @Date: 2022-07-27 14:01:09
  * @version: 1.0
  * @LastEditors: Dujingxi
- * @LastEditTime: 2022-08-03 14:18:18
+ * @LastEditTime: 2022-08-05 11:33:36
  * @Descripttion:
  */
 package main
@@ -48,6 +48,8 @@ func NewNacosConfig(f string) (*NacosConfig, error) {
 		LogDir:              filepath.Join(fileConfig.NacosDir, "log"),
 		CacheDir:            filepath.Join(fileConfig.NacosDir, "cache"),
 		LogLevel:            "warn",
+		Username:            fileConfig.NacosUsername,
+		Password:            fileConfig.NacosPassword,
 	}
 	sConfig := []constant.ServerConfig{
 		{

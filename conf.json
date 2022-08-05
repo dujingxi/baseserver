@@ -12,4 +12,13 @@
     "mysql_db": "serverman"
     // // Allow Cros config, default false
     // cros_config: true
+    // // about nacos config
+    // "nacos_ip": "",
+    // "nacos_scheme": "",
+    // "nacos_port": 0,
+    // "nacos_namespace_id": "",
+    // "nacos_group": "",
+    // "nacos_data_id": "",
+    // "nacos_username": "",
+    // "nacos_password": ""
 }

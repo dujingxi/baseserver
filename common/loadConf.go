@@ -3,7 +3,7 @@
  * @Date: 2022-02-14 16:42:44
  * @version: 1.0
  * @LastEditors: Dujingxi
- * @LastEditTime: 2022-08-03 14:50:29
+ * @LastEditTime: 2022-08-05 11:33:24
  * @Descripttion:
  */
 package common
@@ -40,6 +40,8 @@ type Configuration struct {
 	NacosNamespaceId string `json:"nacos_namespace_id"`
 	NacosGroup       string `json:"nacos_group"`
 	NacosDataId      string `json:"nacos_data_id"`
+	NacosUsername    string `json:"nacos_username"`
+	NacosPassword    string `json:"nacos_password"`
 }
 
 func (c *Configuration) Map() map[string]interface{} {
