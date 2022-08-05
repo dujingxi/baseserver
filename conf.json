@@ -11,7 +11,7 @@
     "mysql_pass": "stream@ocean8",
     "mysql_db": "serverman"
     // // Allow Cros config, default false
-    // cros_config: true
+    // "cros_config": true
     // // about nacos config
     // "nacos_ip": "",
     // "nacos_scheme": "",
